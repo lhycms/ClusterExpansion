@@ -7,7 +7,9 @@ libconfiguration.so : configuration.o libsite.so
 configuration.o : configuration.cpp
 	g++ -Og -std=c++20 -fpic -c configuration.cpp -o configuration.o
 libsite.so : site.o
-	g++ -Og -std=c++20 -fpic -c site.cpp -o libsite.so
+	g++ -Og -std=c++20 -shared site.o -o libsite.so
+libsite.o : site.cpp
+	g++ -Og -std=c++20 -fpic -c site.cpp -o site.o
 
 .PHONY: clean
 clean : 
