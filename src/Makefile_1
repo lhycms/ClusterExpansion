@@ -1,0 +1,26 @@
+CXX = g++ -Og -std=c++20
+
+
+main : main.o
+	${CXX} main.o -o main -L. -lconfiguration -lsite
+
+main.o : main.cpp libconfiguration.so libsite.so
+	${CXX} -c main.cpp -o main.o
+
+libconfiguration.so : configuration.o libsite.so
+	${CXX} -shared configuration.o -o libconfiguration.so -L. -lsite
+
+configuration.o : configuration.cpp
+	${CXX} -fpic -c configuration.cpp -o configuration.o
+
+libsite.so : site.o
+	${CXX} -shared site.o -o libsite.so
+
+${build_folder}/site.o : site.cpp 
+	${CXX} -fpic -c site.cpp -o site.o
+
+
+
+.PHONY : clean
+clean: 
+	rm -r main *.o *so
